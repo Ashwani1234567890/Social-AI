@@ -15,7 +15,7 @@ if not API_KEY:
 
 client=Client(api_key=API_KEY) 
 
-MODEL='gemini-3.8-flash'
+MODEL=os.getenv('GEMINI_MODEL','gemini-3.8-flash')
 
 def ask_ai(prompt):
     if client is None:
@@ -73,7 +73,7 @@ def research_agent(state:AgentState):
 
     result=ask_ai(prompt)
 
-    return {'response':result}
+    return {'research':result}
 
 def content_agent(state:AgentState):
     prompt=f'''
@@ -104,7 +104,7 @@ def content_agent(state:AgentState):
         model=MODEL,
         contents=prompt,
         config={
-            "response_mime_type":"json",
+            "response_mime_type":"application/json",
             "response_schema":PostBundle
         }
     )
